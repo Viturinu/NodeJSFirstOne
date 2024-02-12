@@ -12,7 +12,7 @@ class InverseNumberStream extends Transform {
 const server = http.createServer(async (req, res) => { //tudo no node são streams, toda entrada e saida são streams (MUITO IMPORTANTE DE ENTENDER)(REQ É READABLE E RES É WRITABLE)
 
     const buffers = []
-    for await (const chunk of req) { //essenscial quando não conseguimos treabalhar com os dados parcialmente, por exemplo, recebendo um JSON
+    for await (const chunk of req) { //essenscial quando não conseguimos treabalhar com os dados parcialmente, por exemplo, recebendo um JSON. Já com videos, musicas, textos, podemos fazer uso sem await, pois podemos ir escrevendo de forma parcial
         buffers.push(chunk)
     }
 
