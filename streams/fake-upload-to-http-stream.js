@@ -16,8 +16,6 @@ class OneToHundredStream extends Readable {
                 this.push(buff);//tem que enviar Buffer, assim que node trabalha
             }
         }, 1000)
-
-
     }
 }
 
@@ -27,3 +25,15 @@ fetch("http://192.168.100.106:3335", {
 }).then(response => {
     response.text().then(data => console.log(data))
 })
+/*
+try {
+    const result = fetch("http://192.168.100.106:3335", {
+        method: "POST",
+        body: new OneToHundredStream()
+    });
+    console.log(result.text());
+}
+catch (error) {
+    console.log(result)
+}
+*/
