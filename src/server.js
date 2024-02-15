@@ -2,32 +2,23 @@
 
 import http from "node:http"
 import { json } from "./middleware/json.js";
-import { Database } from "./middleware/database.js";
+import { routes } from "./middleware/routes.js";
 
-const database = new Database()
 const server = http.createServer(async (req, res) => {
 
     const { method, url } = req;
     await json(req, res);
 
-    if (method === "GET" && url === "/users") {
-        const users = database.select("users")
-        return res.
-            writeHead(201).end(JSON.stringify(users));
+    const route = routes.find(route => {
+        return route.method === method && route.path === url
+    })
+
+    if (route) {
+        return route.handler(req, res)
+    } else {
+        return res.writeHead(301).end("Você passou uma rota errada")
     }
-    if (method === "POST" & url === "/users") {
 
-        const { name, email } = req.body;
-        const user = {
-            name,
-            email
-        }
-
-        database.insert("users", user)
-        console.log(database.select("users"))
-        return res.writeHead(201).end()
-
-    }
     return res.writeHead(404).end(req.method + " - " + req.url)
 })
 
