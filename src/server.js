@@ -10,10 +10,14 @@ const server = http.createServer(async (req, res) => {
     await json(req, res);
 
     const route = routes.find(route => {
-        return route.method === method && route.path === url
+        return route.method === method && route.path.test(url) //test retorna pra ver se é válida ou não essa url
     })
 
     if (route) {
+        const routeParams = url.match(route.path) //dá match nessa regex passada com a url que foi requisitada à API; 
+
+        console.log(routeParams.groups)
+
         return route.handler(req, res)
     } else {
         return res.writeHead(301).end("Você passou uma rota errada")
