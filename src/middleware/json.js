@@ -5,9 +5,9 @@ export async function json(req, res) {
         buffers.push(chunk)
     }
     try {
-        req.body = JSON.parse(Buffer.concat(buffers).toString())
+        req.body = JSON.parse(Buffer.concat(buffers).toString()) //transformando body em um JSON
     } catch {
-        req.body = null
+        req.body = null //caso não consiga fazer nada, retorna null no body
     }
 
     res.setHeader("Content-type", "application/json")
